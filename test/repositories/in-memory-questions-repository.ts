@@ -5,9 +5,15 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     
     
     public items: Question[] = []
-
+    
     async create(question: Question){
         this.items.push(question)
+    }
+    
+    async save(question: Question): Promise<void> {
+        const itemIndex = this.items.findIndex(item => item.id === question.id)
+
+        this.items[itemIndex]= question
     }
 
     async findById(id: string): Promise<Question | null> {
