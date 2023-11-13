@@ -10,16 +10,16 @@ export interface QuestionProps {
     title: string
     slug: Slug
     content: string
-    createAt: Date
+    createdAt: Date
     updatedAt?: Date
 }
 
 export class Question extends Entity<QuestionProps> {
-    static create(props: Optional<QuestionProps, 'createAt' | 'slug'>, id?: UniqueEntityId) {
+    static create(props: Optional<QuestionProps, 'createdAt' | 'slug'>, id?: UniqueEntityId) {
         const question = new Question({
             ...props,
             slug: props.slug ?? Slug.createFromText(props.title),
-            createAt: new Date()
+            createdAt: props.createdAt ?? new Date()
         }, id)
 
         return question
@@ -45,8 +45,8 @@ export class Question extends Entity<QuestionProps> {
         return this.props.slug
     }
 
-    get createAt() {
-        return this.props.createAt
+    get createdAt() {
+        return this.props.createdAt
     }
 
     get updatedAt() {
@@ -54,7 +54,7 @@ export class Question extends Entity<QuestionProps> {
     }
 
     get isNew(): boolean {
-        return dayjs().diff(this.createAt, 'days') <= 3
+        return dayjs().diff(this.createdAt, 'days') <= 3
     }
 
     get excerpt() {

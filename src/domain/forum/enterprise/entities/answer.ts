@@ -6,15 +6,15 @@ export interface AnswerProps {
     content: string
     authorId: UniqueEntityId
     questionId: UniqueEntityId
-    createAt: Date
+    createdAt: Date
     updatedAt?: Date
 }
 
 export class Answer extends Entity<AnswerProps> {
-    static create(props: Optional<AnswerProps, 'createAt'>, id?: UniqueEntityId) {
+    static create(props: Optional<AnswerProps, 'createdAt'>, id?: UniqueEntityId) {
         const answer = new Answer({
             ...props,
-            createAt: new Date()
+            createdAt: props.createdAt ?? new Date()
         }, id)
 
         return answer
@@ -32,8 +32,8 @@ export class Answer extends Entity<AnswerProps> {
         return this.props.questionId
     }
 
-    get createAt() {
-        return this.props.createAt
+    get createdAt() {
+        return this.props.createdAt
     }
 
     get updatedAt() {
