@@ -16,11 +16,11 @@ describe('Fetch Recents Question', () => {
         await inMemoryQuestionsRepository.create(makeQuestion({ createdAt: new Date(2023, 4, 2) }))
         await inMemoryQuestionsRepository.create(makeQuestion({ createdAt: new Date(2023, 1, 29) }))
 
-        const { questions } = await fetchRecentsQuestionsUseCase.execute({
+        const result = await fetchRecentsQuestionsUseCase.execute({
             page: 1,
         })
 
-        expect(questions).toEqual([
+        expect(result.value?.questions).toEqual([
             expect.objectContaining({ createdAt: new Date(2023, 4, 2)}),
             expect.objectContaining({ createdAt: new Date(2023, 2, 19)}),
             expect.objectContaining({ createdAt: new Date(2023, 1, 29)}),
@@ -32,10 +32,10 @@ describe('Fetch Recents Question', () => {
             await inMemoryQuestionsRepository.create(makeQuestion())
         }
 
-        const { questions } = await fetchRecentsQuestionsUseCase.execute({
+        const result = await fetchRecentsQuestionsUseCase.execute({
             page: 2,
         })
 
-        expect(questions).toHaveLength(2)
+        expect(result.value?.questions).toHaveLength(2)
     }) 
 })
