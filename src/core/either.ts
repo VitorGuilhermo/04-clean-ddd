@@ -1,25 +1,41 @@
 // UI -> CONTROLLER -> CASO DE USO -> ENTIDADE -> CASO DE USO -> REPOSITÓRIO -> BANCO DE DADOS
 
 // Error
-export class Left<L> {
+export class Left<L, R> {
     readonly value: L
 
     constructor(value: L) {
         this.value = value
     }
+
+    isRight(): this is Right<L, R> {
+        return false
+    }
+
+    isLeft(): this is Left<L, R> {
+        return true
+    }
 }
 
 // Success
-export class Right<R> {
+export class Right<L, R> {
     readonly value: R
 
     constructor(value: R) {
         this.value = value
     }
+
+    isRight(): this is Right<L, R> {
+        return true
+    }
+
+    isLeft(): this is Left<L, R> {
+        return false
+    }
 }
 
 
-export type Either<L, R> = Left<L> | Right<R>
+export type Either<L, R> = Left<L, R> | Right<L, R>
 
 // FUNÇÕES PARA AUTOMATIZAR A CRIAÇÃO DAS CLASSES DE ERRO E SUCESSO
 export const left = <L, R>(value: L): Either<L, R> => {
